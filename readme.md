@@ -196,9 +196,33 @@ in stm32f7xx_it.c add
 	in void SysTick_Handler(void) add
 		OS_TimeMS++;
 		
+### TouchScreen
 
-	
-	
+
+### TouchScreen Interrupt
+
+LDC_INT falling is the interrupt pin (
+
+info in stm32f769i_discovery.h
+
+	/**
+	  * @brief Touch screen interrupt signal
+	  */
+	#define TS_INT_PIN                        ((uint32_t)GPIO_PIN_13)
+	#define TS_INT_GPIO_PORT                  ((GPIO_TypeDef*)GPIOI)
+	#define TS_INT_GPIO_CLK_ENABLE()          __HAL_RCC_GPIOI_CLK_ENABLE()
+	#define TS_INT_GPIO_CLK_DISABLE()         __HAL_RCC_GPIOI_CLK_DISABLE()
+	#define TS_INT_EXTI_IRQn                  EXTI15_10_IRQn
+
+### Example / Reference
+
+BSP - BSP
+STemWin - icons and display seems corrupted, with touch
+STemWin_acceleration - just animation of night and moon, no touch
+STemWin_animation - just animation of cow, no touch
+STemWin_fonts - displays all the fonts and TS at the bottom
+STemWin_helloworld - no TS,just display text
+STemWin_MemoryDevice - no TS or button, just display
 
 ### SUmmary
 
