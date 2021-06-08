@@ -2,16 +2,17 @@
 
 ## CubeMX Initiallization
 
-RCC = 
-  RCC_OscInitStruct.PLL.PLLM = 25;
-  RCC_OscInitStruct.PLL.PLLN = 400;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
-  RCC_OscInitStruct.PLL.PLLQ = 4;
+RCC =  
+	RCC_OscInitStruct.PLL.PLLM = 25;  
+	RCC_OscInitStruct.PLL.PLLN = 400;  
+	RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;  
+	RCC_OscInitStruct.PLL.PLLQ = 4;  
   
-Cortex M7, All enabled
-	ART Acc
-	CPU ICache
-	CPU DCache
+Cortex M7, All enabled   
+	ART Acc  
+	CPU ICache  
+	CPU DCache  
+	
 	
 ### BSP LED & PB Init
 
@@ -19,7 +20,7 @@ Create Drivers\BSP\STM32F769I-Discovery
 Copy stm32f769i_discovery.c/h to Drivers\BSP\STM32F769I-Discovery
 main.h add
 	#include "stm32f769i_discovery.h"
-add to path
+add to path   
 	Drivers\BSP\STM32F769I-Discovery
 
 init the LEDs
@@ -30,6 +31,10 @@ toggle the LEDs
 	BSP_LED_Toggle(LED_RED);
 	BSP_LED_Toggle(LED_GREEN);
 
+add  
+	uint8_t CheckForUserInput(void)
+	
+	
 ### BSP SDRAM Init
 
 copy stm32f769i_discovery_sdram.c/h to Drivers\BSP\STM32F769I-Discovery
@@ -65,11 +70,11 @@ test SDRAM
 
 copy stm32f769i_discovery_qspi.c/h to Drivers\BSP\STM32F769I-Discovery
 
-main.h add
+main.h add  
 	#include "stm32f769i_discovery_qspi.h"
 	
-Create Drivers\BSP\Components
-	add mx25l512 folders
+Create Drivers\BSP\Components  
+	add mx25l512 folder
 	
 copy into Drivers\STM32F7xx_HAL_Driver\Src and Drivers\STM32F7xx_HAL_Driver\Inc
 	stm32f7xx_hal_qspi.c/h
@@ -115,16 +120,16 @@ Create BSP\Components\Common
 copy
 	audio.h
 	
-copy into Drivers\STM32F7xx_HAL_Driver\Src and Drivers\STM32F7xx_HAL_Driver\Inc
+copy into Drivers\STM32F7xx_HAL_Driver\Src and Drivers\STM32F7xx_HAL_Driver\Inc   
 	stm32f7xx_hal_dsi.c/h
 	stm32f7xx_hal_ltdc.c/h
 	stm32f7xx_hal_ltdc_ex.c/h
 	stm32f7xx_hal_dma2d.c/h
 	
-enable 
+enable  
 	#define HAL_DSI_MODULE_ENABLED  
-	#define HAL_LTDC_MODULE_ENABLED  
-	#define HAL_DMA2D_MODULE_ENABLED  
+	#define HAL_LTDC_MODULE_ENABLED   
+	#define HAL_DMA2D_MODULE_ENABLED    
 	
 in main.c add
   if(BSP_LCD_Init() != LCD_OK)
@@ -136,11 +141,40 @@ in main.c add
 		  }
   }
   
-test SQPI
+test LCD  
   BSP_LCD_LayerDefaultInit(0, LCD_FB_START_ADDRESS);
   BSP_LCD_Clear(LCD_COLOR_WHITE);
   Display_DemoDescription();
   
+
+	
+### BSP TouchScreen Init
+
+copy stm32f769i_discovery_ts.c/h to Drivers\BSP\STM32F769I-Discovery
+
+main.h add
+	#include "stm32f769i_discovery_ts.h"
+	
+Create Drivers\BSP\Components
+	add ft6x06 folder
+
+in Drivers\BSP\Components\Common copy   
+	ts.h
+	
+in main.c add
+	/* Touchscreen initialization */
+	if(BSP_TS_Init(BSP_LCD_GetXSize(), BSP_LCD_GetYSize()) != TS_OK)
+	{
+		while(1)
+		{
+			BSP_LED_Toggle(LED_RED);
+			HAL_Delay(200);
+		}
+	}
+  
+add global variable   
+	TS_StateTypeDef  TS_State = {0};
+	
 
 ### STemWin
 
@@ -170,9 +204,9 @@ copy to Core\Inc
 	GUIConf.h - from example like "STemWin_helloworld", repository missing #define GUI_USE_ARGB (1)    /* The color format to use is ABGR */
 	LCDConf.h - from example like "STemWin_helloworld" none in repository
 
-add in main.c
-	#include "WM.h"
-	#include "GUI.h"
+add in main.c  
+	#include "WM.h"   
+	#include "GUI.h"   
 	
 in LCDConf.c comment the whole function
 	DSI_IO_WriteCmd(uint32_t NbrParams, uint8_t *pParams)
@@ -186,19 +220,35 @@ STemWin in main.c
 	GUI_SetFont(&GUI_Font32_1);
 	GUI_DispStringAt("Hello world!", (LCD_GetXSize()-100)/2, (LCD_GetYSize()-20)/2);
 	
+	
 ### GUIBuilder
 
-enable GUI_Delay()
+enable GUI_Delay()  
 	
-in stm32f7xx_it.c add
-	#include "GUI_ConfDefaults.h"
-	extern volatile GUI_TIMER_TIME OS_TimeMS;
-	in void SysTick_Handler(void) add
+in stm32f7xx_it.c add   
+	#include "GUI_ConfDefaults.h"  
+	extern volatile GUI_TIMER_TIME OS_TimeMS; 
+	
+in stm32f7xx_it.c find void SysTick_Handler(void) add   
 		OS_TimeMS++;
 		
-### TouchScreen
+Copy WindowDLG.c
 
 
+### Example "STemWin_fonts"
+
+copy these files and folders   
+	STemWin\App\generated\fonts
+	STemWin\App\generated\images
+	
+copy font_app.c
+
+add in main.c   
+	MainTask();   
+	
+
+	
+	
 ### TouchScreen Interrupt
 
 LDC_INT falling is the interrupt pin (
@@ -208,11 +258,11 @@ info in stm32f769i_discovery.h
 	/**
 	  * @brief Touch screen interrupt signal
 	  */
-	#define TS_INT_PIN                        ((uint32_t)GPIO_PIN_13)
-	#define TS_INT_GPIO_PORT                  ((GPIO_TypeDef*)GPIOI)
-	#define TS_INT_GPIO_CLK_ENABLE()          __HAL_RCC_GPIOI_CLK_ENABLE()
-	#define TS_INT_GPIO_CLK_DISABLE()         __HAL_RCC_GPIOI_CLK_DISABLE()
-	#define TS_INT_EXTI_IRQn                  EXTI15_10_IRQn
+	#define TS_INT_PIN                        ((uint32_t)GPIO_PIN_13)  
+	#define TS_INT_GPIO_PORT                  ((GPIO_TypeDef*)GPIOI)  
+	#define TS_INT_GPIO_CLK_ENABLE()          __HAL_RCC_GPIOI_CLK_ENABLE()  
+	#define TS_INT_GPIO_CLK_DISABLE()         __HAL_RCC_GPIOI_CLK_DISABLE()  
+	#define TS_INT_EXTI_IRQn                  EXTI15_10_IRQn  
 
 ### Example / Reference
 
