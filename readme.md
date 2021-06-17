@@ -1,5 +1,6 @@
 ## Study how to init all the peripherals by BSP Drivers. RCC is the only initialized in CubeMX with 200Mhz as this is the optimized freq for "most" peripherals
 
+
 ## CubeMX Initiallization
 
 RCC =  
@@ -132,20 +133,19 @@ enable
 	#define HAL_DMA2D_MODULE_ENABLED    
 	
 in main.c add
-  if(BSP_LCD_Init() != LCD_OK)
-  {
-	  while(1)
-		  {
-			  BSP_LED_Toggle(LED_RED);
-			  HAL_Delay(200);
-		  }
-  }
+	if(BSP_LCD_Init() != LCD_OK)
+	{
+	while(1)
+		{
+		  BSP_LED_Toggle(LED_RED);
+		  HAL_Delay(200);
+		}
+	}
   
 test LCD  
-  BSP_LCD_LayerDefaultInit(0, LCD_FB_START_ADDRESS);
-  BSP_LCD_Clear(LCD_COLOR_WHITE);
-  Display_DemoDescription();
-  
+	BSP_LCD_LayerDefaultInit(0, LCD_FB_START_ADDRESS);
+	BSP_LCD_Clear(LCD_COLOR_WHITE);
+	Display_DemoDescription();
 
 	
 ### BSP TouchScreen Init
@@ -183,7 +183,7 @@ enable CRC in main
 	
 create folder Middlewares\ST\STemWin\inc add all *.h files
 
-add to path
+add to path includes  
 	Middlewares\ST\STemWin\inc
 	
 Copy all binary files 
@@ -196,9 +196,9 @@ add binary file in "libraries"
 	:STemWin_CM7_wc32_ARGB.a
 	
 copy to Core\Src
-	GUI_X.c - from example like "STemWin_helloworld" or repository
-	GUIConf.c - from example like "STemWin_helloworld", repository cause error cannot fit in "RAM"
-	LCDConf.c - from example like "STemWin_helloworld" none in repository
+	GUI_X.c - from example like "STemWin_helloworld" or repository  
+	GUIConf.c - from example like "STemWin_helloworld", repository cause error cannot fit in "RAM"  
+	LCDConf.c - from example like "STemWin_helloworld" none in repository  
 	
 copy to Core\Inc
 	GUIConf.h - from example like "STemWin_helloworld", repository missing #define GUI_USE_ARGB (1)    /* The color format to use is ABGR */
@@ -208,7 +208,7 @@ add in main.c
 	#include "WM.h"   
 	#include "GUI.h"   
 	
-in LCDConf.c comment the whole function
+in LCDConf.c comment the whole function  
 	DSI_IO_WriteCmd(uint32_t NbrParams, uint8_t *pParams)
 	
 STemWin in main.c
@@ -230,7 +230,7 @@ in stm32f7xx_it.c add
 	extern volatile GUI_TIMER_TIME OS_TimeMS; 
 	
 in stm32f7xx_it.c find void SysTick_Handler(void) add   
-		OS_TimeMS++;
+	OS_TimeMS++;
 		
 Copy WindowDLG.c
 
@@ -247,9 +247,7 @@ add in main.c
 	MainTask();   
 	
 
-	
-	
-### TouchScreen Interrupt
+### TouchScreen Interrupt - to do
 
 LDC_INT falling is the interrupt pin (
 
@@ -263,6 +261,7 @@ info in stm32f769i_discovery.h
 	#define TS_INT_GPIO_CLK_ENABLE()          __HAL_RCC_GPIOI_CLK_ENABLE()  
 	#define TS_INT_GPIO_CLK_DISABLE()         __HAL_RCC_GPIOI_CLK_DISABLE()  
 	#define TS_INT_EXTI_IRQn                  EXTI15_10_IRQn  
+
 
 ### Example / Reference
 
