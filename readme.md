@@ -176,7 +176,7 @@ add global variable
 	TS_StateTypeDef  TS_State = {0};
 	
 
-### STemWin
+### STemWin "Hello World" example
 
 enable CRC in main
 	__HAL_RCC_CRC_CLK_ENABLE(); /* Enable the CRC Module */
