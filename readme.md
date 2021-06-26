@@ -183,24 +183,24 @@ enable CRC in main
 	
 create folder Middlewares\ST\STemWin\inc add all *.h files
 
-add to path includes  
+add to path "Includes"  
 	Middlewares\ST\STemWin\inc
 	
-Copy all binary files 
+Copy all binary files   
 	Middlewares\ST\STemWin\Lib
 
-add to "library Paths"
+add to "library Paths"   
 	Middlewares\ST\STemWin\Lib
 	
 add binary file in "libraries"
 	:STemWin_CM7_wc32_ARGB.a
 	
-copy to Core\Src
+copy to Core\Src - usually these files are located in "STemWin\Target" folder except GUI_X.c is in "Middlewares\ST\STemWin\OS"
 	GUI_X.c - from example like "STemWin_helloworld" or repository  
 	GUIConf.c - from example like "STemWin_helloworld", repository cause error cannot fit in "RAM"  
 	LCDConf.c - from example like "STemWin_helloworld" none in repository  
 	
-copy to Core\Inc
+copy to Core\Inc - usually these files are located in "STemWin\Target" folder
 	GUIConf.h - from example like "STemWin_helloworld", repository missing #define GUI_USE_ARGB (1)    /* The color format to use is ABGR */
 	LCDConf.h - from example like "STemWin_helloworld" none in repository
 
