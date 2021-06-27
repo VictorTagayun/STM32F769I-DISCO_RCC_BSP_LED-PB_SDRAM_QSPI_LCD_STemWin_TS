@@ -223,7 +223,7 @@ STemWin in main.c
 
 ### GUIBuilder
 
-enable GUI_Delay()  
+enable GUI_Delay() by the ff steps:   
 	
 in stm32f7xx_it.c add   
 	#include "GUI_ConfDefaults.h"  
