@@ -208,13 +208,13 @@ add in main.c
 	#include "WM.h"   
 	#include "GUI.h"   
 	
-in LCDConf.c comment the whole function  
+in LCDConf.c comment the whole function   
 	DSI_IO_WriteCmd(uint32_t NbrParams, uint8_t *pParams)
 	
-STemWin in main.c
-	GUI_Init();
-	/* Enable Window Manager Multibuffering */
-	WM_MULTIBUF_Enable(1);
+STemWin in main.c   
+	GUI_Init();   
+	/* Enable Window Manager Multibuffering */  
+	WM_MULTIBUF_Enable(1); 
 
 	GUI_Clear();
 	GUI_SetFont(&GUI_Font32_1);
